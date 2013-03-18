@@ -1011,10 +1011,15 @@ define(function (require, exports, module) {
      */
     Editor.prototype.removeInlineWidget = function (inlineWidget) {
         var lineNum = this._getInlineWidgetLineNumber(inlineWidget);
+        var node = inlineWidget.htmlContent;
         
-        this._codeMirror.removeLineWidget(inlineWidget.info);
-        this._removeInlineWidgetInternal(inlineWidget);
-        inlineWidget.onClosed();
+        $(node).height(0);
+        
+        node.addEventListener('webkitTransitionEnd', function () {
+            this._codeMirror.removeLineWidget(inlineWidget.info);
+            this._removeInlineWidgetInternal(inlineWidget);
+            inlineWidget.onClosed();
+        });
     };
     
     /**
