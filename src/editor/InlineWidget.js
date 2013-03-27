@@ -42,6 +42,8 @@ define(function (require, exports, module) {
         // create the outer wrapper div
         this.htmlContent = window.document.createElement("div");
         this.$htmlContent = $(this.htmlContent).addClass("inline-widget");
+        this.$htmlContent.addClass("inline-widget-filter");
+        this.$htmlContent.addClass('inline-widget-transition');
         this.$htmlContent.append("<div class='shadow top' />")
             .append("<div class='shadow bottom' />");
         

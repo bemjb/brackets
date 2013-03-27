@@ -991,6 +991,16 @@ define(function (require, exports, module) {
 
         // Callback to widget once parented to the editor
         inlineWidget.onAdded();
+        
+        inlineWidget.$htmlContent.removeClass('inline-widget-filter');
+        inlineWidget.$htmlContent.addClass("inline-widget-filter-expanded");
+        var removeFilter = function () {
+            inlineWidget.$htmlContent.removeClass('inline-widget-transition');
+            inlineWidget.$htmlContent.removeClass('inline-widget-filter-expanded');
+
+            inlineWidget.$htmlContent.off("webkitTransitionEnd", removeFilter);
+        };
+        inlineWidget.$htmlContent.on("webkitTransitionEnd", removeFilter);
     };
     
     /**
@@ -1011,15 +1021,22 @@ define(function (require, exports, module) {
      */
     Editor.prototype.removeInlineWidget = function (inlineWidget) {
         var lineNum = this._getInlineWidgetLineNumber(inlineWidget);
-        var node = inlineWidget.htmlContent;
+        var that = this;
         
-        $(node).height(0);
+        inlineWidget.$htmlContent.addClass("inline-widget-filter-expanded");
+        inlineWidget.$htmlContent.addClass("inline-widget-transition");
         
-        node.addEventListener('webkitTransitionEnd', function () {
-            this._codeMirror.removeLineWidget(inlineWidget.info);
-            this._removeInlineWidgetInternal(inlineWidget);
-            inlineWidget.onClosed();
-        });
+        window.setTimeout(function () {
+            inlineWidget.$htmlContent.height(0);
+            inlineWidget.$htmlContent.removeClass("inline-widget-filter-expanded");
+            inlineWidget.$htmlContent.addClass("inline-widget-filter");
+        
+            inlineWidget.$htmlContent.on('webkitTransitionEnd', function () {
+                that._codeMirror.removeLineWidget(inlineWidget.info);
+                that._removeInlineWidgetInternal(inlineWidget);
+                inlineWidget.onClosed();
+            });
+        }, 0);
     };
     
     /**

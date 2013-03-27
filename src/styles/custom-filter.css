@@ -1,0 +1,12 @@
+.inline-widget-transition {
+    -webkit-transition: height 1s, -webkit-filter 1s;
+}
+
+.inline-widget-filter {
+    -webkit-filter: custom(url(shaders/vertex/fold.vs) mix(url(shaders/fragment/fold.fs) multiply source-atop), 8 50 border-box, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg), t 0.7, spins 1.5, phase -0.7, shadow 1.5, mapDepth 40, mapCurve -0.3, minSpacing 0, useColoredBack 1, backColor 0.5 0.5 0.5 1);
+}
+
+.inline-widget-filter-expanded {
+    -webkit-filter: custom(url(shaders/vertex/fold.vs) mix(url(shaders/fragment/fold.fs) multiply source-atop), 8 50 border-box, transform perspective(1000) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg), t 0, spins 1.5, phase -0.7, shadow 1.5, mapDepth 40, mapCurve -0.3, minSpacing 0, useColoredBack 1, backColor 0.5 0.5 0.5 1);
+}
+
